@@ -1,0 +1,12 @@
+[project]
+name = "datacenter"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "apscheduler>=3.11.3",
+    "fastapi[standard]>=0.163.0",
+    "redfish>=3.4.2",
+    "sqlmodel>=0.0.50",
+]
