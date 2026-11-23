@@ -28,7 +28,7 @@ def _get_once(ip: str, path:str):
     except ValueError as error:
         raise BadResponse(path) from error
 
-    if resp.status_code == 502 and (body["error"] or {}["code"]) == "PROBE_OFFLINE":
+    if resp.status_code == 502 and (body.get("error") or {}).get("code") == "PROBE_OFFLINE":
         raise DeviceOffline(f"{ip}: probe offline")
 
     raise_for_status(resp.status_code, path, resp.text, resp.headers.get("Retry-After"))

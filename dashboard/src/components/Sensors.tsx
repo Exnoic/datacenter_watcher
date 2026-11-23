@@ -9,8 +9,8 @@ export function AllSensors() {
   }, []);
 
   return (
-    <div className="server">
-      <h2>Servers</h2>
+    <div className="sensor">
+      <h2>Sensors</h2>
       <ul>
         {sensors.map((s) => (
           <li key={s.sensor_id}>

@@ -35,35 +35,6 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 api = APIRouter(prefix="/api")
 
-app.include_router(api)
-
-@app.get("/servers/redfish/{server_ip}")
-def get_server_redfish(server_ip: str):
-    data = redfish_api.get_server_data(server_ip, "/redfish/v1")
-    return data
-
-@app.get("/servers/redfish/{server_ip}/thermal")
-def get_server_temperature(server_ip: str):
-    data = redfish_api.get_server_temperature(server_ip)
-    return data
-
-
-@app.get("/sensors/api/{sensor_ip}/thermal")
-def get_sensor_temperature(sensor_ip: str):
-    data = sensor_api.get_sensor_temp(sensor_ip)
-    return data
-
-
-@app.get("/sensors/api/{sensor_ip}")
-def get_sensor(sensor_ip: str):
-    data = sensor_api.get_sensor_info(sensor_ip)
-    return data
-
-@app.get("/sensors/{sensor_id}")
-def get_sensor_db(session: SessionDep, sensor_id: str):
-    data = db.get_sensor_db(sensor_id, session)
-    return data
-
 @app.post("/rack/create_zone/{rack}")
 async def create_zone(rack: str, session: SessionDep):
     data = db.zone_creator_db(session, rack)
@@ -107,5 +78,5 @@ def redfish_error_handler(request: Request, exc: RedfishError):
         status_code=status, content={"error": type(exc).__name__, "detail": str(exc)}
     )
 
-
+app.include_router(api)
 app.mount("/", StaticFiles(directory="dashboard/dist", html=True), name="dashboard")
